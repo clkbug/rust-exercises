@@ -18,10 +18,12 @@ fn main() {
     for item in catalog.keys() {
         show_price(item, catalog.get(item));
     }
-    // show_price("鮭", catalog.get("鮭"));
+    show_price("鮭", catalog.get("鮭"));
 }
 
-fn show_price(name: &str, price: u32) {
-    println!("{}は{}円です", name, price);
+fn show_price(name: &str, price: Option<&i32>) {
+    match price {
+        None => println!("{}はない", name),
+        Some(x) => println!("{}は{}円", name, x),
+    }
 }
-

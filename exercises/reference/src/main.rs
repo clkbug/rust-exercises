@@ -7,12 +7,12 @@
 */
 
 fn main() {
-    let name = format!("dear rustaceans");
-    greet(name.clone());
-    greet(name);
+    let mut name = format!("dear rustaceans");
+    greet(&mut name);
+    greet(&mut name);
 }
 
-fn greet(name: String) {
+fn greet(name: &mut String) {
     println!("Hello {}", name);
+    *name = name[5..].to_string();
 }
-

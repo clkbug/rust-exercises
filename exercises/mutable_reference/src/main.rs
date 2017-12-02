@@ -9,7 +9,7 @@
 fn main() {
     let (word_a, word_b) = words();
     println!("単語1：{:?}\n単語2：{:?}", word_a, word_b);
-    let text = concat(word_a, word_b);
+    let text = concat(&word_a, &word_b);
     println!("結合された結果：{:?}", text);
 }
 
@@ -17,11 +17,11 @@ fn words() -> (String, String) {
     (format!("こんにちは"), format!("世界"))
 }
 
-fn concat(mut prefix: String, postfix: String) -> String {
-    prefix.push(' ');
+fn concat(prefix: &String, postfix: &String) -> String {
+    let mut prefix2 = prefix.clone();
+    prefix2.push(' ');
     for c in postfix.chars() {
-        prefix.push(c);
+        prefix2.push(c);
     }
-    prefix
+    prefix2
 }
-
