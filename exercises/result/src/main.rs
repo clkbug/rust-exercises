@@ -15,10 +15,12 @@ use std::fs::File;
 fn main() {
     let mut args = env::args();
     if let Some(file) = args.nth(1) {
-        println!("{}", read_file(&file).unwrap());        
-        /*
+        match read_file(&file){
+            Err(e)=> println!("{} read中に{}", file, e),
+            Ok(t)=>println!("{} {}", file, t),
+        }
         println!("{}", read_file2(&file));
-        */
+        
     }
 }
 
@@ -30,6 +32,11 @@ fn read_file(filename: &String) -> Result<String, io::Error> {
 }
 
 fn read_file2(filename: &String) -> String {
-    String::new()
+    let mut content = String::new();
+    let x = File::open(filename).and_then(|mut x| x.read_to_string(&mut content));
+    match x { // これどうやってコンビネータに？
+        Err(e) => e.to_string(),
+        Ok(x)  => content
+    }
 }
 
