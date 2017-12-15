@@ -11,6 +11,7 @@
 
 #![allow(dead_code)]
 use std::collections::HashMap;
+use std::fmt;
 
 fn main() {
     let mut catalog = HashMap::new();
@@ -27,28 +28,22 @@ fn main() {
     cart.take("orange", &catalog);
     cart.take("apple", &catalog);
 
-    for item in cart.list {
+    for item in &cart.list {
         println!("{} : {}円", item.name, item.price);
     }
 
     // [1]
-    /*
-    for item in cart.list {
+    for item in &cart.list {
         println!("{}", item);
     }
-    */
 
     // [2]
-    /*
     println!("total amount = {}", cart.total());
-    */
 
     // [3]
-    /*
     for (item, amount) in cart.histogram() {
         println!("{} : {}", item.name, amount);
     }
-    */
 }
 
 struct Cart {
@@ -71,9 +66,16 @@ impl Cart {
             .map(|item| item.price)
             .fold(0, |accm, item| accm + item)
     }
+    fn histogram(&self) -> HashMap<&Item, i32> {
+        let mut h = HashMap::new();
+        for item in &self.list {
+            *h.entry(item).or_insert(0) += 1;
+        }
+        h
+    }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Hash, PartialEq, Eq)]
 struct Item {
     name: String,
     price: u32,
@@ -85,5 +87,11 @@ impl Item {
             name: name.to_string(),
             price: price,
         }
+    }
+}
+
+impl fmt::Display for Item {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{} : {} yen", self.name, self.price)
     }
 }
