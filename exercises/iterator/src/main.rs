@@ -11,38 +11,33 @@ Goal:
 fn main() {
     let range = 1..20;
 
-    for value in range {
+    for value in range.clone() {
         println!("{}{} number is {}", value, ordinal(value), value);
     }
 
-/* [1]
     hr();
 
-    for (index, value) in range.enumerate() {
+    for (index, value) in range.clone().enumerate() {
         println!("{}{} number is {}", index, ordinal(index), value);
     }
-*/
-/* [2]
+
     hr();
 
-    for value in range {
+    for value in range.clone().map(|x| x * x) {
         println!("{}{} number is {}", value, ordinal(value), value);
     }
-*/
-/* [3]
+
     hr();
 
-    for value in range {
+    for value in range.clone().filter(|x| x % 2 == 1) {
         println!("{}{} number is {}", value, ordinal(value), value);
     }
-*/
-/* [4]
+
     hr();
 
-    for value in range {
+    for value in range.filter(|x| x % 2 == 0).map(|x| x * x) {
         println!("{}{} number is {}", value, ordinal(value), value);
     }
-*/
 }
 
 fn ordinal<'a>(number: usize) -> &'a str {
@@ -58,6 +53,6 @@ fn ordinal<'a>(number: usize) -> &'a str {
     }
 }
 
-fn hr(){
+fn hr() {
     println!("------------------------------------");
 }
